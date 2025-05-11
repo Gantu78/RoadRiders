@@ -2,39 +2,55 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/javascript-node
 {
-	"name": "Node.js",
+	"name": "Road-Riders Node.js",
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
 	"image": "mcr.microsoft.com/devcontainers/javascript-node:1-18-bullseye",
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},
-
+	"features": {
+    "ghcr.io/devcontainers/features/node:1": {},
+    "ghcr.io/devcontainers/features/git:1": {}
+  },
 	// Configure tool-specific properties.
 	"customizations": {
 		// Configure properties specific to VS Code.
 		"vscode": {
-			"settings": {},
+			"settings": {
+				"editor.formatOnSave": true,
+        		"terminal.integrated.defaultProfile.linux": "bash"
+			},
 			"extensions": [
-				"streetsidesoftware.code-spell-checker"
+				"streetsidesoftware.code-spell-checker",
+				"dbaeumer.vscode-eslint",
+        		"esbenp.prettier-vscode",
+        		"ms-vscode.vscode-typescript-next",
+        		"formulahendry.auto-rename-tag",
+        		"formulahendry.auto-close-tag",
+        		"streetsidesoftware.code-spell-checker"
 			]
 		}
 	},
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [3000],
-
+	"forwardPorts": [3000, 5000],
 	// Use 'portsAttributes' to set default properties for specific forwarded ports. 
 	// More info: https://containers.dev/implementors/json_reference/#port-attributes
 	"portsAttributes": {
 		"3000": {
-			"label": "Hello Remote World",
+			"label": "Frontend",
+			"onAutoForward": "notify"
+		},
+		"5000": {
+			"label": "Backend",
 			"onAutoForward": "notify"
 		}
 	},
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "yarn install"
+	"postCreateCommand": "bash -c 'cd /workspaces/gantu78-roadriders/backend && npm install && npm run dev & cd /workspaces/gantu78-roadriders/frontend && npm install && npm start'",
 
 	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
-	// "remoteUser": "root"
+	"remoteUser": "node"
 }
