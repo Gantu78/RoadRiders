@@ -27,32 +27,19 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="neumorphic max-w-md w-full">
-        <h2 className="text-2xl font-bold text-primary mb-6 text-center">
-          Forgot Password
-        </h2>
+    <div className="full-screen">
+      <div className="card animate-fade-in">
+        <h2>Forgot Password</h2>
         <input
           type="email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="neumorphic-input"
         />
-        <button
-          onClick={handleForgotPassword}
-          className="neumorphic-button w-full bg-secondary text-primary"
-        >
-          Reset Password
-        </button>
-        {message && (
-          <p className="mt-4 text-center text-sm text-darkGray">{message}</p>
-        )}
-        <p className="mt-4 text-center text-sm text-darkGray">
-          Back to{" "}
-          <a href="/login" className="text-secondary hover:underline">
-            Login
-          </a>
+        <button onClick={handleForgotPassword}>Send Reset Link</button>
+        {message && <p>{message}</p>}
+        <p>
+          Back to <a href="/login">Login</a>
         </p>
       </div>
     </div>
