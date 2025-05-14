@@ -32,7 +32,7 @@ module.exports = async (req, res) => {
     }
 
     const { error: emailError } = await resend.emails.send({
-      from: 'RoadRiders <onboarding@resend.dev>',
+      from: 'RoadRiders <danielguizapro@gmail.com>',
       to: email,
       subject: 'Password Reset',
       html: `
