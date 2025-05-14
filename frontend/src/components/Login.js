@@ -31,7 +31,7 @@ const Login = () => {
       const result = await response.json();
       setMessage(result.message);
       if (result.message === "Login successful") {
-        login(); // Actualiza el estado de autenticación
+        login();
         navigate("/tracking");
       }
     } catch (error) {
@@ -40,43 +40,30 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="neumorphic max-w-md w-full">
-        <h2 className="text-2xl font-bold text-primary mb-6 text-center">Login</h2>
+    <div className="full-screen">
+      <div className="card animate-fade-in">
+        <h2>Login</h2>
         <input
           type="email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="neumorphic-input"
         />
         <input
           type="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="neumorphic-input"
         />
-        <button
-          onClick={handleLogin}
-          className="neumorphic-button w-full bg-secondary text-primary"
-        >
-          Login
-        </button>
-        {message && (
-          <p className="mt-4 text-center text-sm text-darkGray">{message}</p>
-        )}
-        <p className="mt-4 text-center text-sm text-darkGray">
+        <button onClick={handleLogin}>Login</button>
+        {message && <p>{message}</p>}
+        <p>
           Forgot your password?{" "}
-          <a href="/forgot-password" className="text-secondary hover:underline">
-            Reset it
-          </a>
+          <a href="/forgot-password">Reset it</a>
         </p>
-        <p className="mt-2 text-center text-sm text-darkGray">
+        <p>
           Don’t have an account?{" "}
-          <a href="/register" className="text-secondary hover:underline">
-            Register
-          </a>
+          <a href="/register">Register</a>
         </p>
       </div>
     </div>
