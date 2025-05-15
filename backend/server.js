@@ -8,6 +8,7 @@ const express = require('express');
 const { createClient } = require('@supabase/supabase-js');
 const { Resend } = require('resend');
 const app = express();
+const jwt = require('jsonwebtoken'); // Asegúrate de instalarlo: npm install jsonwebtoken
 
 
 app.use(cors({
@@ -22,6 +23,7 @@ const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 const supabase = createClient(supabaseUrl, supabaseKey);
 const RESEND_API_KEY = 're_jRTS2MoR_MQknLTxZuKBWH1mewPPCnyd1';
 const resend = new Resend(RESEND_API_KEY);
+const JWT_SECRET = 'clave-secreta'; 
 
 (async () => {
   const { data, error } = await supabase.from('users').select().limit(1);
@@ -69,6 +71,9 @@ app.post('/api/auth/forgot-password', async (req, res) => {
     if (userError || !user) {
       throw new Error('User not found');
     }
+
+    const token = jwt.sign({ email, exp: Math.floor(Date.now() / 1000) + 3600 }, JWT_SECRET);
+    const resetLink = `http://localhost:3000/reset-password?email=${encodeURIComponent(email)}&token=${encodeURIComponent(token)}`;
 
     const { error: emailError } = await resend.emails.send({
       from: 'RoadRiders <onboarding@resend.dev>',
@@ -133,7 +138,7 @@ app.post('/api/auth/forgot-password', async (req, res) => {
         <div class="content">
           <p>Hello,</p>
           <p>We received a request to reset your password. Click the button below to reset it:</p>
-          <a href="https://yourapp.com/reset-password?email=${email}&token=UNIQUE_TOKEN" class="button">Reset Password</a>
+          <a href="${resetLink}" class="button">Reset Password</a>
           <p>If you did not request this, please ignore this email.</p>
         </div>
         <div class="footer">
@@ -165,6 +170,43 @@ app.post('/api/track', async (req, res) => {
 });
 app.get('/', (req, res) => {
   res.send('Road-Riders Backend is running');
+});
+
+app.post('/api/auth/reset-password', async (req, res) => {
+  const { email, token, password } = req.body;
+
+  if (!email || !token || !password) {
+    return res.status(400).json({ message: 'Missing required fields' });
+  }
+
+  try {
+    // Verifica el token
+    const decoded = jwt.verify(token, JWT_SECRET);
+    if (decoded.email !== email) {
+      return res.status(400).json({ message: 'Invalid token or email' });
+    }
+
+    // Valida la contraseña (mínimo 6 caracteres)
+    if (password.length < 6) {
+      return res.status(400).json({ message: 'Password must be at least 6 characters' });
+    }
+
+    // Actualiza la contraseña
+    const { error: updateError } = await supabase
+      .from('users')
+      .update({ password })
+      .eq('email', email);
+
+    if (updateError) throw new Error(updateError.message);
+
+    res.json({ message: 'Password updated successfully' });
+  } catch (error) {
+    if (error.name === 'TokenExpiredError') {
+      res.status(400).json({ message: 'Token has expired' });
+    } else {
+      res.status(400).json({ message: error.message });
+    }
+  }
 });
 
 const PORT = 5000;
