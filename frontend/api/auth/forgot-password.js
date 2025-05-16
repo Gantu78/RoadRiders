@@ -1,5 +1,7 @@
 const { createClient } = require('@supabase/supabase-js');
 const { Resend } = require('resend');
+const jwt = require('jsonwebtoken');
+const JWT_SECRET = 'clave-secreta'; // Debe ser el mismo que en reset-password.js
 
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_KEY;
@@ -30,6 +32,9 @@ module.exports = async (req, res) => {
     if (userError || !user) {
       throw new Error('User not found');
     }
+
+    const token = jwt.sign({ email, exp: Math.floor(Date.now() / 1000) + 3600 }, JWT_SECRET); // Expira en 1 hora
+    const resetLink = `https://roadriders.vercel.app/reset-password?email=${encodeURIComponent(email)}&token=${encodeURIComponent(token)}`;
 
     const { error: emailError } = await resend.emails.send({
       from: 'RoadRiders <onboarding@resend.dev>',
@@ -94,7 +99,7 @@ module.exports = async (req, res) => {
             <div class="content">
               <p>Hello,</p>
               <p>We received a request to reset your password. Click the button below to reset it:</p>
-              <a href="https://yourapp.com/reset-password?email=${email}&token=UNIQUE_TOKEN" class="button">Reset Password</a>
+              <a href="${resetLink}" class="button">Reset Password</a>
               <p>If you did not request this, please ignore this email.</p>
             </div>
             <div class="footer">
