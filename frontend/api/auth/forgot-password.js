@@ -33,6 +33,8 @@ module.exports = async (req, res) => {
       throw new Error('User not found');
     }
 
+    const token = jwt.sign({ email, exp: Math.floor(Date.now() / 1000) + 3600 }, JWT_SECRET);
+
     const { error: emailError } = await resend.emails.send({
       from: 'RoadRiders <onboarding@resend.dev>',
       to: email,
