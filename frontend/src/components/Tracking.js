@@ -39,21 +39,19 @@ const Tracking = () => {
     fetchCompletedRoutes();
   }, []);
 
-  useEffect(() => {
-    if (location && !mapRef.current) {
-      mapRef.current = L.map("map").setView([location.latitude, location.longitude], 13);
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution: "© OpenStreetMap contributors",
-      }).addTo(mapRef.current);
-      L.polyline(routePoints.map(p => [p.latitude, p.longitude]), { color: 'red' }).addTo(mapRef.current);
-    } else if (location && mapRef.current) {
-      mapRef.current.setView([location.latitude, location.longitude]);
-      mapRef.current.eachLayer((layer) => {
-        if (layer instanceof L.Polyline) mapRef.current.removeLayer(layer);
-      });
-      L.polyline(routePoints.map(p => [p.latitude, p.longitude]), { color: 'red' }).addTo(mapRef.current);
+useEffect(() => {
+  if (location) {
+    if (mapRef.current) {
+      mapRef.current.remove();
+      mapRef.current = null;
     }
-  }, [location, routePoints]);
+    mapRef.current = L.map("map").setView([location.latitude, location.longitude], 13);
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: "© OpenStreetMap contributors",
+    }).addTo(mapRef.current);
+    L.polyline(routePoints.map(p => [p.latitude, p.longitude]), { color: 'red' }).addTo(mapRef.current);
+  }
+}, [location, routePoints]);
 
   const startTracking = () => {
     if ("geolocation" in navigator) {
