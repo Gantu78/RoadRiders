@@ -2,7 +2,13 @@ import React, { useState, useEffect, useContext, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import L from "leaflet";
+import { createClient } from '@supabase/supabase-js'; // Add this import
 import "leaflet/dist/leaflet.css";
+
+const supabase = createClient(
+  process.env.REACT_APP_SUPABASE_URL,
+  process.env.REACT_APP_SUPABASE_KEY
+);
 
 const Tracking = () => {
   const [location, setLocation] = useState(null);
