@@ -18,9 +18,21 @@ module.exports = async (req, res) => {
   }
 
   const { user_id, latitude, longitude } = req.body;
+if (action === 'finalize') {
+    const { route_data, distance, duration } = req.body;
+    const { data, error } = await supabase.from('completed_routes').insert({
+      user_id,
+      route_data,
+      distance,
+      duration,
+    });
+    if (error) return res.status(400).json({ error: error.message });
+    return res.status(200).json({ message: 'Route saved', data });
+  }
+
   const { data, error } = await supabase.from('tracks').insert({
     user_id,
-    location: `POINT(${longitude} ${latitude})`
+    location: `POINT(${longitude} ${latitude})`,
   });
 
   if (error) {
