@@ -109,29 +109,7 @@ body {
 
 /* Estilo para el mapa */
 
-.flex {
-  display: flex;
-}
 
-.w-1 {
-  width: 25%;
-}
-
-.w-3 {
-  width: 75%;
-}
-
-.bg-gray-800 {
-  background-color: #2d3748;
-}
-
-.overflow-y-auto {
-  overflow-y: auto;
-}
-
-.h-full {
-  height: 100vh;
-}
 
 #map {
   height: 400px; 
