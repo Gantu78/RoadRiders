@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-
+//Verificacion
 const Tracking = () => {
   const [location, setLocation] = useState(null);
   const [tracking, setTracking] = useState(false);
