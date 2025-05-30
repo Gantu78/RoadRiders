@@ -17,7 +17,7 @@ module.exports = async (req, res) => {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { user_id, latitude, longitude } = req.body;
+  const { user_id, latitude, longitude, action, route_data, distance, duration } = req.body;
 if (action === 'finalize') {
     const { route_data, distance, duration } = req.body;
     const { data, error } = await supabase.from('completed_routes').insert({
