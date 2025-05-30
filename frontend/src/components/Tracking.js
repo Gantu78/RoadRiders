@@ -131,7 +131,7 @@ const Tracking = () => {
 
   return (
     <div className="full-screen flex">
-      <div className="w-1/4 bg-gray-800 p-4 overflow-y-auto h-full">
+      <div className="w-1 bg-gray-800 p-4 overflow-y-auto h-full">
         <h3 className="text-white text-lg mb-2">Completed Routes</h3>
         {completedRoutes.map(route => (
           <div key={route.id} className="bg-gray-700 p-2 mb-2 rounded text-white">
@@ -141,7 +141,7 @@ const Tracking = () => {
           </div>
         ))}
       </div>
-      <div className="w-3/4">
+      <div className="w-3">
         <div className="card animate-fade-in">
           <h2>GPS Tracking</h2>
           {!tracking ? (
