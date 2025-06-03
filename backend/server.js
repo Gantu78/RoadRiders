@@ -18,10 +18,10 @@ app.use(cors({
 }));
 app.use(express.json());
 
-const supabaseUrl = 'https://ndxwvurtivgcwrieguqo.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5keHd2dXJ0aXZnY3dyaWVndXFvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY5NzI3MzQsImV4cCI6MjA2MjU0ODczNH0.lpbIZSVVdWEyLx1wWfoxIVL45b6PwHyM_iU1wpFfkKI';
+const supabaseUrl = '';
+const supabaseKey = '';
 const supabase = createClient(supabaseUrl, supabaseKey);
-const RESEND_API_KEY = 're_jRTS2MoR_MQknLTxZuKBWH1mewPPCnyd1';
+const RESEND_API_KEY = '';
 const resend = new Resend(RESEND_API_KEY);
 const JWT_SECRET = 'clave-secreta'; 
 
