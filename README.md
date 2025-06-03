@@ -12,6 +12,14 @@ Este proyecto fue desarrollado como parte del curso **Fundamentos de Software** 
 **Pontificia Universidad Javeriana**, bajo la dirección del profesor **Jaime Chavarriaga**.
 
 ---
+👥 Autores
+Samuel Gantiva
+
+Carlos Daniel Güiza
+
+Carlos Pinzón
+
+Daniel Hoyos
 
 ## ✨ Características Principales
 
@@ -56,12 +64,6 @@ frontend/
 ├── .env # Variables de entorno
 └── ...
 
-yaml
-Copiar
-Editar
-
----
-
 ## ⚙️ Requisitos Previos
 
 - Node.js (v16 o superior)
@@ -75,32 +77,25 @@ Editar
 
 1. **Clona el repositorio:**
    ```bash
-   git clone https://github.com/tuusuario/roadriders.git
+   git clone https://github.com/gantu78/roadriders.git
    cd roadriders
-Instala dependencias:
+2. Instala dependencias:
+   npm install
 
-bash
-Copiar
-Editar
-npm install
-Configura las variables de entorno:
+   
+3. Configura las variables de entorno:
+   Crea un archivo .env en la raíz con lo siguiente:
 
-Crea un archivo .env en la raíz con lo siguiente:
-
-ini
-Copiar
-Editar
-SUPABASE_URL=tu_url_de_supabase
-SUPABASE_KEY=tu_api_key_de_supabase
-RESEND_API_KEY=tu_api_key_de_resend
-JWT_SECRET=tu_secreto_jwt
-Ejecuta la app en desarrollo:
-
-bash
-Copiar
-Editar
+   SUPABASE_URL=tu_url_de_supabase
+   SUPABASE_KEY=tu_api_key_de_supabase
+   RESEND_API_KEY=tu_api_key_de_resend
+   JWT_SECRET=tu_secreto_jwt
+   
+4. Ejecuta la app en desarrollo:
 npm run dev
 Accede a http://localhost:3000 desde tu navegador.
+
+
 
 🛠️ Base de Datos en Supabase
 Crea las siguientes tablas en tu proyecto Supabase:
@@ -159,17 +154,7 @@ Añade las variables de entorno en Settings > Environment Variables.
 🤝 Contribuciones
 ¿Te gustaría colaborar? ¡Son bienvenidas! Haz un fork, crea una rama, haz tus cambios y envía un Pull Request.
 
-👥 Autores
-Samuel Gantiva
 
-Carlos Daniel Güiza
-
-Carlos Pinzón
-
-Daniel Hoyos
-
-📝 Licencia
-Este proyecto está bajo la licencia MIT.
 
 📬 Contacto
 ¿Tienes dudas o sugerencias? Abre un issue en GitHub o contáctanos directamente.
