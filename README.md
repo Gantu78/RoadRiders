@@ -131,7 +131,8 @@ Crea las siguientes tablas en tu proyecto Supabase:
 - email (varchar)
 - password (varchar)
 - created_at (timestamp)
-**completed_routes**
+
+**completed_routes**:
 - id (int)
 - user_id (foreign key)
 - route_data (jsonb)
