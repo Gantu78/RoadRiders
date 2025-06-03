@@ -105,21 +105,21 @@ To deploy this project run
    cd roadriders
    ```
 2. **Instala dependencias:**
-```bash
-npm install
-```
+   ```bash
+    npm install
+    ```
 3. **Configura las variables de entorno:**
    Crea un archivo .env en la raíz con lo siguiente:
-```bash
-   SUPABASE_URL=tu_url_de_supabase
-   SUPABASE_KEY=tu_api_key_de_supabase
-   RESEND_API_KEY=tu_api_key_de_resend
-   JWT_SECRET=tu_secreto_jwt
-```
-4. **Ejecuta la app en desarrollo:**
-```bash
-npm run dev
-```
+      ```bash
+     SUPABASE_URL=tu_url_de_supabase
+     SUPABASE_KEY=tu_api_key_de_supabase
+     RESEND_API_KEY=tu_api_key_de_resend
+     JWT_SECRET=tu_secreto_jwt
+      ```
+  4. **Ejecuta la app en desarrollo:**
+      ```bash
+      npm run dev
+      ```
 Accede a http://localhost:3000 desde tu navegador.
 
 
@@ -149,19 +149,19 @@ Crea las siguientes tablas en tu proyecto Supabase:
 ---
 
 ## 🧪 ¿Cómo usar la app?
-1. Regístrate o inicia sesión.
-2. Ve a la sección de seguimiento.
-3. Haz clic en "Start Tracking" y comienza tu recorrido.
-4. Controla tu sesión con "Pause", "Resume" o "Finalize".
-5. Consulta tus rutas finalizadas en el panel lateral con sus estadísticas.
+  1. Regístrate o inicia sesión.
+  2. Ve a la sección de seguimiento.
+  3. Haz clic en "Start Tracking" y comienza tu recorrido.
+  4. Controla tu sesión con "Pause", "Resume" o "Finalize".
+  5. Consulta tus rutas finalizadas en el panel lateral con sus estadísticas.
 
 ---
 
 ## ☁️ Despliegue en Vercel
-1. Sube tu proyecto a GitHub.
-2. Conecta tu repositorio desde Vercel.
-3. Añade las variables de entorno en Settings > Environment Variables.
-4. ¡Despliega y listo!
+  1. Sube tu proyecto a GitHub.
+  2. Conecta tu repositorio desde Vercel.
+  3. Añade las variables de entorno en Settings > Environment Variables.
+  4. ¡Despliega y listo!
 ## 🤝 Contribuciones
 ¿Te gustaría colaborar? ¡Son bienvenidas! Haz un fork, crea una rama, haz tus cambios y envía un Pull Request.
 
