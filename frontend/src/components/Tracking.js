@@ -197,7 +197,7 @@ const stopTracking = () => {
             </button>
           </>
         )}
-        {location && <div id="map" style={{ height: "400px" }}></div>}
+        {location && <div id="map"></div>}
         {location && (
           <div className="mt-4 text-center">
             <p>Latitude: {location.latitude}</p>
