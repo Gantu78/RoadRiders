@@ -74,10 +74,22 @@ useEffect(() => {
     const { latitude, longitude } = position.coords;
     setLocation({ latitude, longitude });
     if (!pausedRef.current) {
-      setRoutePoints((prev) => [...prev, [latitude, longitude]]);
-      calculateDistanceAndDuration([latitude, longitude]);
-    }
-  },
+      setRoutePoints((prev) => {
+            // Only calculate distance if there is a previous point
+            if (prev.length > 0) {
+              const prevPoint = prev[prev.length - 1];
+              const newDistance = getDistanceFromLatLonInKm(
+                prevPoint[0],
+                prevPoint[1],
+                latitude,
+                longitude
+              );
+              setDistance((d) => d + newDistance);
+            }
+            return [...prev, [latitude, longitude]];
+          });
+        }
+      },
   (error) => {
     setMessage("Geolocation error: " + error.message);
     setTracking(false);
