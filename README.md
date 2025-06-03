@@ -12,7 +12,8 @@ Este proyecto fue desarrollado como parte del curso **Fundamentos de Software** 
 **Pontificia Universidad Javeriana**, bajo la dirección del profesor **Jaime Chavarriaga**.
 
 ---
-👥 Autores
+👥 Autores:
+
 Samuel Gantiva
 
 Carlos Daniel Güiza
