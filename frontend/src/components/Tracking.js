@@ -15,22 +15,38 @@ const Tracking = () => {
   const [message, setMessage] = useState("");
   const [startTime, setStartTime] = useState(null);
   
-  const { isAuthenticated, logout } = useContext(AuthContext);
+  const { isAuthenticated, logout, user} = useContext(AuthContext);
   const navigate = useNavigate();
   const mapRef = useRef(null);
   const watchIdRef = useRef(null);
   const durationIntervalRef = useRef(null);
 
   const pausedRef = useRef(paused);
+
   useEffect(() => {
   pausedRef.current = paused;
-}, [paused]);
+  }, [paused]);
 
   useEffect(() => {
     if (!isAuthenticated) {
       navigate("/login");
     }
   }, [isAuthenticated, navigate]);
+
+  useEffect(() => {
+  const fetchCompletedRoutes = async () => {
+    if (!user?.id) return;
+    try {
+      const response = await fetch(`/api/get-routes?user_id=${user.id}`);
+      if (!response.ok) throw new Error("Failed to fetch routes");
+      const result = await response.json();
+      setCompletedRoutes(result.data || []);
+        } catch (error) {
+      setMessage("Failed to fetch routes: " + error.message);
+      }
+    };
+  fetchCompletedRoutes();
+  }, [user]);
 
 useEffect(() => {
   if (location && !mapRef.current && document.getElementById("map")) {
@@ -151,7 +167,7 @@ const finalizeTracking = async () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          user_id: 1,
+          user_id: user?.id,
           route_data: routeData,
           distance: parseFloat(distance.toFixed(2)), // Ensure distance is a number
           duration: parseInt(duration), // Ensure duration is an integer
