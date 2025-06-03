@@ -29,9 +29,9 @@ const Login = () => {
         throw new Error(errorText);
       }
       const result = await response.json();
-      setMessage(result.message);
+      setMessage(result.message && result.data && result.data.length > 0);
       if (result.message === "Login successful") {
-        login();
+        login(result.data[0]); // Pass the user data to the context
         navigate("/tracking");
       }
     } catch (error) {
