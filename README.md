@@ -6,21 +6,38 @@
 
 ---
 
+## 📋 Índice
+
+- [Authors](#-authors)
+- [Proyecto Académico](#-proyecto-académico)
+- [Características Principales](#-características-principales)
+- [Tecnologías Utilizadas](#-tecnologías-utilizadas)
+- [Estructura del Proyecto](#️-estructura-del-proyecto)
+- [Requisitos Previos](#️-requisitos-previos)
+- [Deployment](#deployment)
+- [Instalación y Puesta en Marcha](#-instalación-y-puesta-en-marcha)
+- [Base de Datos en Supabase](#️-base-de-datos-en-supabase)
+- [¿Cómo usar la app?](#-cómo-usar-la-app)
+- [Despliegue en Vercel](#️-despliegue-en-vercel)
+- [Contribuciones](#-contribuciones)
+- [Contacto](#-contacto)
+- [Licencia](#-licencia)
+
+---
+
+## 👥 Authors
+
+- [Samuel Gantiva](https://www.github.com/gantu78)
+- [Carlos Daniel Güiza](https://github.com/WitzhiD04)
+- [Daniel Hoyos](https://github.com/Danielhoyos06)
+- [Carlos Pinzón](https://github.com/CarlitosPinzon)
+
+---
+
 ## 🎓 Proyecto Académico
 
 Este proyecto fue desarrollado como parte del curso **Fundamentos de Software** en la  
 **Pontificia Universidad Javeriana**, bajo la dirección del profesor **Jaime Chavarriaga**.
-
----
-👥 Autores:
-
-Samuel Gantiva
-
-Carlos Daniel Güiza
-
-Carlos Pinzón
-
-Daniel Hoyos
 
 ## ✨ Características Principales
 
@@ -47,7 +64,7 @@ Daniel Hoyos
 ---
 
 ## 🗂️ Estructura del Proyecto
-
+```plain
 frontend/
 ├── api/ # Funciones serverless (auth, tracking, rutas)
 │ ├── auth/
@@ -64,7 +81,7 @@ frontend/
 ├── public/ # Archivos estáticos
 ├── .env # Variables de entorno
 └── ...
-
+```
 ## ⚙️ Requisitos Previos
 
 - Node.js (v16 o superior)
@@ -72,93 +89,85 @@ frontend/
 - Cuenta en [Vercel](https://vercel.com/) (opcional para despliegue)
 - Navegador compatible con geolocalización
 
----
+
+## Deployment
+
+To deploy this project run
+
+```bash
+  npm run deploy
+```
 
 ## 🚀 Instalación y Puesta en Marcha
-
 1. **Clona el repositorio:**
    ```bash
    git clone https://github.com/gantu78/roadriders.git
    cd roadriders
-2. Instala dependencias:
-   npm install
-
-   
-3. Configura las variables de entorno:
+   ```
+2. **Instala dependencias:**
+```bash
+npm install
+```
+3. **Configura las variables de entorno:**
    Crea un archivo .env en la raíz con lo siguiente:
-
+```bash
    SUPABASE_URL=tu_url_de_supabase
    SUPABASE_KEY=tu_api_key_de_supabase
    RESEND_API_KEY=tu_api_key_de_resend
    JWT_SECRET=tu_secreto_jwt
-   
-4. Ejecuta la app en desarrollo:
+```
+4. **Ejecuta la app en desarrollo:**
+```bash
 npm run dev
+```
 Accede a http://localhost:3000 desde tu navegador.
 
 
-
-🛠️ Base de Datos en Supabase
+## 🛠️ Base de Datos en Supabase
 Crea las siguientes tablas en tu proyecto Supabase:
 
-users
-id (UUID)
+**users**:
+- id (UUID)
+- email (varchar)
+- password (varchar)
+- created_at (timestamp)
+**completed_routes**
+- id (int)
+- user_id (foreign key)
+- route_data (jsonb)
+- distance (float)
+- duration (int)
+- created_at (timestamp)
 
-email (varchar)
+**tracks** (opcional para seguimiento en vivo)
+- id (int)
+- user_id (foreign key)
+- location (geometry)
+- created_at (timestamp)
 
-password (varchar)
+---
 
-created_at (timestamp)
+## 🧪 ¿Cómo usar la app?
+1. Regístrate o inicia sesión.
+2. Ve a la sección de seguimiento.
+3. Haz clic en "Start Tracking" y comienza tu recorrido.
+4. Controla tu sesión con "Pause", "Resume" o "Finalize".
+5. Consulta tus rutas finalizadas en el panel lateral con sus estadísticas.
 
-completed_routes
-id (int)
+---
 
-user_id (foreign key)
-
-route_data (jsonb)
-
-distance (float)
-
-duration (int)
-
-created_at (timestamp)
-
-tracks (opcional para seguimiento en vivo)
-id (int)
-
-user_id (foreign key)
-
-location (geometry)
-
-created_at (timestamp)
-
-🧪 ¿Cómo usar la app?
-Regístrate o inicia sesión.
-
-Ve a la sección de seguimiento.
-
-Haz clic en "Start Tracking" y comienza tu recorrido.
-
-Controla tu sesión con "Pause", "Resume" o "Finalize".
-
-Consulta tus rutas finalizadas en el panel lateral con sus estadísticas.
-
-☁️ Despliegue en Vercel
-Sube tu proyecto a GitHub.
-
-Conecta tu repositorio desde Vercel.
-
-Añade las variables de entorno en Settings > Environment Variables.
-
-¡Despliega y listo!
-
-🤝 Contribuciones
+## ☁️ Despliegue en Vercel
+1. Sube tu proyecto a GitHub.
+2. Conecta tu repositorio desde Vercel.
+3. Añade las variables de entorno en Settings > Environment Variables.
+4. ¡Despliega y listo!
+## 🤝 Contribuciones
 ¿Te gustaría colaborar? ¡Son bienvenidas! Haz un fork, crea una rama, haz tus cambios y envía un Pull Request.
 
-
-
-📬 Contacto
+## 📬 Contacto
 ¿Tienes dudas o sugerencias? Abre un issue en GitHub o contáctanos directamente.
 
 Hecho con ❤️ para los amantes del ciclismo, el software libre y la innovación universitaria.
-y añade una sección de índice para ir mas rapidamente a la seccion deseada. cuando termines genera una entidad readme.md
+
+## 📝 Licencia
+Este proyecto está bajo la licencia MIT. Consulta el archivo LICENSE para más detalles.
