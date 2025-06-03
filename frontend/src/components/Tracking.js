@@ -21,6 +21,11 @@ const Tracking = () => {
   const watchIdRef = useRef(null);
   const durationIntervalRef = useRef(null);
 
+  const pausedRef = useRef(paused);
+  useEffect(() => {
+  pausedRef.current = paused;
+}, [paused]);
+
   useEffect(() => {
     if (!isAuthenticated) {
       navigate("/login");
@@ -65,19 +70,19 @@ useEffect(() => {
         setDuration((prev) => prev + 1);
       }, 1000);// Increment every second
    const watchId = navigator.geolocation.watchPosition(
-      async (position) => {
-        const { latitude, longitude } = position.coords;
-        setLocation({ latitude, longitude });
-        if (!paused) {
-          setRoutePoints((prev) => [...prev, [latitude, longitude]]);
-          calculateDistanceAndDuration([latitude, longitude]);
-        }
-      },
-      (error) => {
-        setMessage("Geolocation error: " + error.message);
-        setTracking(false);
-      }
-    );
+  async (position) => {
+    const { latitude, longitude } = position.coords;
+    setLocation({ latitude, longitude });
+    if (!pausedRef.current) {
+      setRoutePoints((prev) => [...prev, [latitude, longitude]]);
+      calculateDistanceAndDuration([latitude, longitude]);
+    }
+  },
+  (error) => {
+    setMessage("Geolocation error: " + error.message);
+    setTracking(false);
+  }
+);
     watchIdRef.current = watchId;
   } else if (paused) {
     setPaused(false); // Resume tracking

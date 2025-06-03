@@ -24,7 +24,7 @@ module.exports = async (req, res) => {
     distance,
     duration,
     created_at: new Date().toISOString(),
-  });
+  }).select();
 
   if (error) {
     return res.status(400).json({ error: error.message });
