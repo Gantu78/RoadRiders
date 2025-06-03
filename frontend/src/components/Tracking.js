@@ -13,10 +13,13 @@ const Tracking = () => {
   const [duration, setDuration] = useState(0); // in seconds
   const [completedRoutes, setCompletedRoutes] = useState([]); 
   const [message, setMessage] = useState("");
+  const [startTime, setStartTime] = useState(null);
+  
   const { isAuthenticated, logout } = useContext(AuthContext);
   const navigate = useNavigate();
   const mapRef = useRef(null);
   const watchIdRef = useRef(null);
+  const durationIntervalRef = useRef(null);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -25,7 +28,7 @@ const Tracking = () => {
   }, [isAuthenticated, navigate]);
 
 useEffect(() => {
-  if (location && !mapRef.current) {
+  if (location && !mapRef.current && document.getElementById("map")) {
     mapRef.current = L.map("map").setView([location.latitude, location.longitude], 13);
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       attribution: "© OpenStreetMap contributors",
@@ -42,6 +45,12 @@ useEffect(() => {
       L.polyline(routePoints, { color: "red" }).addTo(mapRef.current);
     }
   }
+  return () => {
+    if (mapRef.current) {
+      mapRef.current.remove();
+      mapRef.current = null;
+    }
+  };
 }, [location, routePoints, paused]);
 
   const startTracking = () => {
@@ -51,6 +60,10 @@ useEffect(() => {
       setRoutePoints([]);
       setDistance(0);
       setDuration(0);
+      setStartTime(Date.now());
+      durationIntervalRef.current = setInterval(() => {
+        setDuration((prev) => prev + 1);
+      }, 1000);// Increment every second
    const watchId = navigator.geolocation.watchPosition(
       async (position) => {
         const { latitude, longitude } = position.coords;
@@ -68,6 +81,10 @@ useEffect(() => {
     watchIdRef.current = watchId;
   } else if (paused) {
     setPaused(false); // Resume tracking
+    setStartTime(Date.now() - duration * 1000); // Adjust start time to account for elapsed duration
+      durationIntervalRef.current = setInterval(() => {
+        setDuration((prev) => prev + 1);
+      }, 1000);
   } else {
     setMessage("Geolocation is not supported by your browser");
   }
@@ -75,6 +92,10 @@ useEffect(() => {
 
 const pauseTracking = () => {
   setPaused(true);
+  if (durationIntervalRef.current) {
+    clearInterval(durationIntervalRef.current);
+    durationIntervalRef.current = null;
+  }
 };
 
 const calculateDistanceAndDuration = (newPoint) => {
@@ -88,8 +109,8 @@ const calculateDistanceAndDuration = (newPoint) => {
     );
     setDistance((prev) => prev + newDistance);
   }
-  setDuration((prev) => prev + 1); // Increment every second (simplified)
 };
+
 
 // Haversine formula to calculate distance between two points
 const getDistanceFromLatLonInKm = (lat1, lon1, lat2, lon2) => {
@@ -113,10 +134,10 @@ const finalizeTracking = async () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          user_id: 1, // Replace with dynamic user_id from AuthContext
+          user_id: 1,
           route_data: routeData,
-          distance: distance.toFixed(2),
-          duration: duration,
+          distance: parseFloat(distance.toFixed(2)), // Ensure distance is a number
+          duration: parseInt(duration), // Ensure duration is an integer
         }),
       });
       if (!response.ok) {
@@ -124,9 +145,15 @@ const finalizeTracking = async () => {
         throw new Error(errorText);
       }
       const result = await response.json();
+      const newRoute = result.data[0]; // Supabase returns an array of inserted rows
       setCompletedRoutes((prev) => [
         ...prev,
-        { id: result.data.id, distance, duration, created_at: new Date().toISOString() },
+        {
+          id: newRoute.id,
+          distance: parseFloat(newRoute.distance),
+          duration: newRoute.duration,
+          created_at: newRoute.created_at,
+        },
       ]);
       stopTracking();
       setMessage("Route saved successfully");
@@ -141,9 +168,14 @@ const stopTracking = () => {
     navigator.geolocation.clearWatch(watchIdRef.current);
     watchIdRef.current = null;
   }
+  if (durationIntervalRef.current) {
+    clearInterval(durationIntervalRef.current);
+    durationIntervalRef.current = null;
+  }
   setTracking(false);
   setPaused(false);
   setLocation(null);
+  setStartTime(null);
   if (mapRef.current) {
     mapRef.current.remove();
     mapRef.current = null;
