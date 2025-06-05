@@ -8,7 +8,7 @@
 
 ## 📋 Índice
 
-- [Authors](#-authors)
+- [Authors](#--authors)
 - [Proyecto Académico](#-proyecto-académico)
 - [Características Principales](#-características-principales)
 - [Tecnologías Utilizadas](#-tecnologías-utilizadas)
